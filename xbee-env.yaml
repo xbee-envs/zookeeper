@@ -1,0 +1,22 @@
+schema-version: "1.0"
+type: container
+defaulthost:
+  system: ubuntu:20.04
+  net: default
+
+model:
+  tickTime: 2000
+  initLimit: 10
+  syncLimit: 5
+  clientPort: 2181
+
+host:
+  a:
+    pack: zookeeper
+    port: "{{ .clientPort }}:{{ .clientPort }}"
+
+up:
+  - a:
+      cmds:
+        - cp {{ .xbee.templates}}/zoo.cfg {{ .a.pack.xbee.install}}/apache-zookeeper-{{ .a.pack.version }}-bin/conf
+        - zkServer.sh start
